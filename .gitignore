@@ -18,6 +18,7 @@ api/coverage
 api/.nyc_output
 
 api/node_modules
+api/dist
 .idea
 DS_Store
 api/db.json
