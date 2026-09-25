@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import type { Role } from '../types.js';
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'node:crypto';
+import type { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 const SALT_WORK_FACTOR = 10;
@@ -11,22 +12,26 @@ export class User {
   @Prop({
     required: true,
     unique: true,
+    trim: true,
   })
   username: string;
 
   @Prop({
     required: true,
+    trim: true,
   })
   displayName: string;
 
   @Prop({
     required: true,
     unique: true,
+    trim: true,
   })
   email: string;
 
   @Prop({
     required: true,
+    trim: true,
   })
   avatar: string;
 
@@ -46,7 +51,7 @@ export class User {
   @Prop({
     default: null,
   })
-  googleId: string;
+  googleId: string | null;
 
   checkPassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);

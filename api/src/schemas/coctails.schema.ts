@@ -1,20 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { CocktailIngredients } from '../types.js';
+import { CocktailIngredientSchema } from './cocktailIngredient.schema.js';
 
 @Schema()
 export class Cocktail {
   @Prop({
     required: true,
-    unique: true,
     type: Types.ObjectId,
-    ref: 'Users',
+    ref: 'User',
   })
   userId: Types.ObjectId;
 
   @Prop({
     required: true,
-    unique: true,
+    trim: true,
   })
   name: string;
 
@@ -36,6 +36,11 @@ export class Cocktail {
 
   @Prop({
     required: true,
+    type: [CocktailIngredientSchema],
+    validate: {
+      validator: (value: CocktailIngredients[]) => value.length > 0,
+      message: 'At least one ingredient is required!',
+    },
   })
   ingredients: CocktailIngredients[];
 }

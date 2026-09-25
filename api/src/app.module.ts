@@ -8,6 +8,7 @@ import { AuthGuard } from './middlewares/auth.guard.js';
 import { RolesGuard } from './middlewares/roles.guard.js';
 import { User, UserSchema } from './schemas/user.schema.js';
 import { CocktailsController } from './cocktails/cocktails.controller.js';
+import { Cocktail, CocktailSchema } from './schemas/coctails.schema.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -16,14 +17,11 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     MongooseModule.forRoot('mongodb://localhost/tune'),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: User.name, schema: UserSchema },
+      { name: Cocktail.name, schema: CocktailSchema },
     ]),
   ],
 
-  controllers: [
-    UsersController,
-    CocktailsController,
-  ],
+  controllers: [UsersController, CocktailsController],
 
   providers: [AppService, AuthGuard, RolesGuard],
 })
