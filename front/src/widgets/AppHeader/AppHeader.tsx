@@ -1,9 +1,39 @@
-import { Box, Button, Container, Toolbar, Typography } from "@mui/material";
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoutes } from "../../routing/routes.ts";
-import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { selectUser, unsetUser } from "../../entities/User/userSlice.ts";
-import { logoutUser } from "../../entities/User/userThunk.ts";
+import {
+  useNavigate,
+  Link as RouterLink
+} from "react-router-dom";
+
+import {
+  useAppDispatch,
+  useAppSelector
+} from "../../app/hooks.ts";
+
+import {
+  AppRoutes
+} from "../../routing/routes.ts";
+
+import {
+  Box,
+  Container,
+  Toolbar,
+  Typography,
+  Avatar,
+  Divider,
+  Button
+} from "@mui/material";
+
+import {
+  selectUser,
+  unsetUser
+} from "../../entities/User/userSlice.ts";
+
+import {
+  logoutUser
+} from "../../entities/User/userThunk.ts";
+
+import {
+  getImageUrl
+} from "../../shared/axios/AxiosApi.ts";
 
 const AppHeader = () => {
   const navigate = useNavigate();
@@ -21,39 +51,101 @@ const AppHeader = () => {
     }
   };
 
-  // const displayName = user?.displayName || user?.username || "User";
-  // const avatarSrc = user?.avatar ? getImageUrl(user.avatar) : undefined;
+  const displayName = user?.displayName || user?.username || "User";
+  const avatarSrc = user?.avatar ? getImageUrl(user.avatar) : undefined;
 
   return (
-    <Box component="header" sx={{mb: 2, borderBottom: '1px solid #fff'}}>
-      <Container maxWidth='lg'>
-        <Toolbar disableGutters sx={{
-          justifyContent: 'space-between',
-          flexWrap: 'wrap'
-        }}>
+    <Box
+      component="header"
+      sx={{
+        mb: 2,
+        borderBottom: "1px solid",
+        borderColor: "divider"
+      }}
+    >
+      <Container maxWidth="lg">
+        <Toolbar
+          disableGutters
+          sx={{
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 2,
+            py: 1
+          }}
+        >
           <Typography
             variant="h4"
-            component={Link}
+            component={RouterLink}
             to={AppRoutes.main}
-            sx={{textDecoration: 'none', color: 'inherit', fontWeight: 'bold'}}
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              fontWeight: "bold"
+            }}
           >
             Cocktails
           </Typography>
 
-          <Box sx={{display: 'flex', gap: 2, alignItems: 'center'}}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+              flexWrap: "wrap",
+              justifyContent: "flex-end"
+            }}
+          >
             {user ? (
               <>
-                <Typography variant="body1">Hello, {user.username}!</Typography>
-                <Button color="inherit" onClick={logoutHandler}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1
+                  }}
+                >
+                  <Avatar
+                    src={avatarSrc}
+                    alt={displayName}
+                  >
+                    {displayName
+                      .charAt(0)
+                      .toUpperCase()}
+                  </Avatar>
+
+                  <Typography>
+                    {displayName}
+                  </Typography>
+                </Box>
+
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{mx: 1}}
+                />
+
+                <Button
+                  color="inherit"
+                  onClick={logoutHandler}
+                >
                   Logout
                 </Button>
               </>
             ) : (
               <>
-                <Button component={Link} to={AppRoutes.login} color="inherit">
+                <Button
+                  component={RouterLink}
+                  to={AppRoutes.login}
+                  color="inherit"
+                >
                   Sign In
                 </Button>
-                <Button component={Link} to={AppRoutes.register} color="inherit">
+
+                <Button
+                  component={RouterLink}
+                  to={AppRoutes.register}
+                  color="inherit"
+                >
                   Sign Up
                 </Button>
               </>

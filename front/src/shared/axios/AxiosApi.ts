@@ -38,4 +38,26 @@ export const getApiErrorMessage = (error: unknown) => {
   return 'Request failed!';
 };
 
+
+export const getImageUrl = (image: string) => {
+  if (!image) {
+    return '/images/no-image.svg';
+  }
+
+  if (
+    image.startsWith('data:') ||
+    image.startsWith('http://') ||
+    image.startsWith('https://') ||
+    image.startsWith('blob:')
+  ) {
+    return image;
+  }
+
+  if (image === 'images/no-image.svg') {
+    return '/images/no-image.svg';
+  }
+
+  return `${apiURL}/${image.replace(/^\/+/, '')}`;
+};
+
 export default axiosApi;

@@ -14,6 +14,7 @@ import {
 
 import type { WebStorage } from 'redux-persist/es/types';
 import storageModule from 'redux-persist/lib/storage';
+import { cocktailReducer } from "../entities/Cocktail/cocktailSlice.ts";
 
 const storage: WebStorage =
   (storageModule as unknown as { default: WebStorage }).default ||
@@ -21,6 +22,7 @@ const storage: WebStorage =
 
 const rootReducer = combineReducers({
   user: userReducer,
+  cocktail: cocktailReducer,
 });
 
 const persistConfig = {
