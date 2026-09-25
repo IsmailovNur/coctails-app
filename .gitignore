@@ -19,6 +19,9 @@ api/.nyc_output
 
 api/node_modules
 api/dist
+
+!api/public/images/*
+
 .idea
 DS_Store
 api/db.json
@@ -26,7 +29,7 @@ api/public/images/*
 api/.env
 
 front/public/images/*
-!front/public/images/no-image.webp
+!front/public/images/no-image.svg
 
 # Editor directories and files
 .vscode/*

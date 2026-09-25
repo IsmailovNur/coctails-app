@@ -2,6 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { CocktailIngredients } from '../types.js';
 import { CocktailIngredientSchema } from './cocktailIngredient.schema.js';
+import type { Document } from 'mongoose';
+
+export type CocktailDocument = Cocktail & Document;
 
 @Schema()
 export class Cocktail {

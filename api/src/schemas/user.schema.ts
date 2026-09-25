@@ -48,9 +48,7 @@ export class User {
   @Prop({ required: true })
   token: string;
 
-  @Prop({
-    default: null,
-  })
+  @Prop({ type: String, default: null })
   googleId: string | null;
 
   checkPassword(password: string): Promise<boolean> {
