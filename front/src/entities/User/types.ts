@@ -16,7 +16,7 @@ export interface RegisterMutation {
   displayName: string;
   email: string;
   password: string;
-  avatar: string;
+  avatar: File;
 }
 
 export interface ValidationError {

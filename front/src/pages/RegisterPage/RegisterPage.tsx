@@ -24,26 +24,7 @@ import {
   selectRegisterLoading
 } from "../../entities/User/userSlice.ts";
 
-
-const fileToDataUrl = (file: File) => {
-  return new Promise<string>(
-    (resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        resolve(String(reader.result));
-      };
-
-      reader.onerror = () => {
-        reject(new Error("Failed to read avatar!"));
-      };
-
-      reader.readAsDataURL(file);
-    }
-  );
-};
-
-const RegisterPage = () => {
+export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -93,7 +74,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const avatar = await fileToDataUrl(state.avatar);
+      const avatar =state.avatar;
 
       await dispatch(
         registerUser({
@@ -106,7 +87,6 @@ const RegisterPage = () => {
       ).unwrap();
 
       toast.success("Registration successful!");
-
       navigate(AppRoutes.main);
 
     } catch (error) {
@@ -116,7 +96,7 @@ const RegisterPage = () => {
 
   return (
     <Box
-      sx={{maxWidth: 450, mx: "auto", mt: 4}}
+      sx={{maxWidth: 500, mx: "auto", mt: 4}}
     >
       <Paper sx={{p: 4}} variant="outlined">
         <Typography variant="h5" align="center" sx={{mb: 4}}>

@@ -4,7 +4,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Chip,
+  Chip, Divider,
   List,
   ListItem,
   Typography,
@@ -58,7 +58,8 @@ export const CocktailCard = (props: CocktailCardProps) => {
       sx={{
         height: "100%",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        p: 1
       }}
     >
       <CardMedia
@@ -69,7 +70,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
         sx={{objectFit: "cover"}}
       />
 
-      <CardContent sx={{flexGrow: 1}}>
+      <CardContent sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
         <Box
           sx={{
             display: "flex",
@@ -89,6 +90,7 @@ export const CocktailCard = (props: CocktailCardProps) => {
             />
           )}
         </Box>
+        <Divider sx={{mb: 1}} />
 
         <Typography
           variant="subtitle1"
@@ -119,19 +121,24 @@ export const CocktailCard = (props: CocktailCardProps) => {
           )}
         </List>
 
-        <Typography
-          variant="subtitle1"
-          sx={{fontWeight: "bold", mb: 1}}
-        >
-          Recipe
-        </Typography>
 
-        <Typography
-          variant="body2"
-          sx={{whiteSpace: "pre-wrap"}}
-        >
-          {cocktail.recipe}
-        </Typography>
+        <Box sx={{marginTop: "auto"}}>
+          <Divider sx={{mb: 1}} />
+          <Typography
+            variant="subtitle1"
+            sx={{fontWeight: "bold", mb: 1}}
+          >
+            Recipe
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{whiteSpace: "pre-wrap"}}
+          >
+            {cocktail.recipe}
+          </Typography>
+        </Box>
+
       </CardContent>
 
       {actions && (

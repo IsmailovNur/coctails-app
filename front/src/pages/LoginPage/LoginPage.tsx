@@ -69,7 +69,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <Box sx={{maxWidth: 400, mx: "auto", mt: 4}}>
+    <Box sx={{maxWidth: 500, mx: "auto", mt: 4}}>
       <Paper sx={{p: 4}} variant="outlined">
         <Typography variant="h5" align="center" sx={{mb: 4}}>
           Sign In

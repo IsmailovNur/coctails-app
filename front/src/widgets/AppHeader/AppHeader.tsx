@@ -105,6 +105,7 @@ const AppHeader = () => {
                   }}
                 >
                   <Avatar
+                    sx={{border: '1px solid #ccc'}}
                     src={avatarSrc}
                     alt={displayName}
                   >
@@ -123,6 +124,32 @@ const AppHeader = () => {
                   flexItem
                   sx={{mx: 1}}
                 />
+
+                <Button
+                  component={RouterLink}
+                  to={AppRoutes.createCocktail}
+                  color="inherit"
+                >
+                  Add Cocktail
+                </Button>
+
+                <Button
+                  component={RouterLink}
+                  to={AppRoutes.myCocktails}
+                  color="inherit"
+                >
+                  My Cocktails
+                </Button>
+
+                {user.role === "admin" && (
+                  <Button
+                    component={RouterLink}
+                    to={AppRoutes.adminCocktails}
+                    color="inherit"
+                  >
+                    Moderation
+                  </Button>
+                )}
 
                 <Button
                   color="inherit"

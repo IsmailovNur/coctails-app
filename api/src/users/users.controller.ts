@@ -5,7 +5,9 @@ import {
   Post,
   Req,
   UnauthorizedException,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/user.schema.js';
@@ -14,6 +16,10 @@ import { RegisterUserDto } from './register.user.dto.js';
 import { LoginUserDto } from './login.user.dto.js';
 import { AuthGuard } from '../middlewares/auth.guard.js';
 import type { RequestWithUser } from '../types.js';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { randomUUID } from 'node:crypto';
 
 @Controller('users')
 export class UsersController {
@@ -23,13 +29,34 @@ export class UsersController {
   ) {}
 
   @Post()
-  async register(@Body() userDto: RegisterUserDto) {
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: './public/images/users',
+        filename: (_request, file, callback) => {
+          const extension = extname(file.originalname);
+
+          callback(null, `${randomUUID()}${extension}`);
+        },
+      }),
+    }),
+  )
+  async register(
+    @UploadedFile()
+    uploadedFile: Express.Multer.File,
+
+    @Body()
+    userDto: RegisterUserDto,
+  ) {
     const username = userDto?.username?.trim();
     const displayName = userDto?.displayName?.trim();
     const email = userDto?.email?.trim().toLowerCase();
-    const avatar = userDto?.avatar?.trim();
     const password = userDto?.password?.trim();
     const googleId = userDto?.googleId?.trim();
+
+    if (!uploadedFile) {
+      throw new BadRequestException('Avatar is required!');
+    }
 
     const existingUser = await this.userModel.findOne({
       $or: [{ username }, { email }],
@@ -43,7 +70,7 @@ export class UsersController {
       username,
       displayName,
       email,
-      avatar,
+      avatar: `images/users/${uploadedFile.filename}`,
       password,
       role: 'user',
       googleId: googleId || null,
@@ -94,9 +121,7 @@ export class UsersController {
     }
 
     request.user.generateToken();
-
     await request.user.save();
-
     return {
       message: 'Logout successful!',
     };

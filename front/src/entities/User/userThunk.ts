@@ -10,12 +10,16 @@ import axiosApi, { getApiErrorMessage } from "../../shared/axios/AxiosApi.ts";
 export const registerUser = createAsyncThunk<User, RegisterMutation, {
   rejectValue: GlobalError;
 }>('user/register',
-
   async (
     registerMutation, {rejectWithValue}) => {
     try {
-      const response =
-        await axiosApi.post<User>('/users', registerMutation);
+      const formData = new FormData();
+      formData.append('username', registerMutation.username,);
+      formData.append('displayName', registerMutation.displayName,);
+      formData.append('email', registerMutation.email,);
+      formData.append('password', registerMutation.password,);
+      formData.append('avatar', registerMutation.avatar,);
+      const response = await axiosApi.post<User>('/users', formData,);
       return response.data;
 
     } catch (e) {

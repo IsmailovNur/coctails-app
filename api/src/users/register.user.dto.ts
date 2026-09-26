@@ -12,9 +12,6 @@ export class RegisterUserDto {
   email: string;
 
   @IsNotEmpty()
-  avatar: string;
-
-  @IsNotEmpty()
   password: string;
 
   @IsOptional()
